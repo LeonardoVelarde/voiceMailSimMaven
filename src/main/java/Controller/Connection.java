@@ -1,14 +1,13 @@
 package Controller;
 
-import Controller.ConnectionStates.ConnectedState;
-import Controller.ConnectionStates.ConnectionState;
+import Controller.ConnectionStates.*;
 import Model.Mailbox;
 import Model.Message;
 import View.UserInterface;
 
 /*
    Connects a phone to the mail system. The purpose of this
-   class is to keep track of the state of a connection, since
+   class is to keep track of the state3 of a connection, since
    the phone itself is just a source of individual key presses.
 */
 public class Connection
@@ -18,15 +17,7 @@ public class Connection
    public String currentRecording;
    public String accumulatedKeys;
    public InterfaceManager interfaceManager;
-   public int state;
-   public ConnectionState state2;
-
-   public static final int CONNECTED = 1;
-   public static final int RECORDING = 2;
-   public static final int MAILBOX_MENU = 3;
-   public static final int MESSAGE_MENU = 4;
-   public static final int CHANGE_PASSCODE = 5;
-   public static final int CHANGE_GREETING = 6;
+   public ConnectionState state;
 
    public static final String INITIAL_PROMPT =
            "Enter mailbox number followed by #";
@@ -67,18 +58,18 @@ public class Connection
 
    public void dial(String key)
    {
-      state2.operate(key, this);
+      state.operate(key, this);
    }
 
    public void record(String voice)
    {
-      if (state == RECORDING || state == CHANGE_GREETING)
+      if (isRecording() || isInChangeGreeting())
          currentRecording += voice;
    }
 
    public void hangup()
    {
-      if (state == RECORDING)
+      if (isRecording())
          currentMailbox.addMessage(new Message(currentRecording));
       resetConnection();
    }
@@ -87,8 +78,7 @@ public class Connection
    {
       currentRecording = "";
       accumulatedKeys = "";
-      state = CONNECTED;
-      state2 = new ConnectedState();
+      state = new ConnectedState();
       this.interfaceManager.speakToAllInterfaces(INITIAL_PROMPT);
    }
 
@@ -97,29 +87,29 @@ public class Connection
    }
 
 
-public boolean isConnected() {
-    return state == CONNECTED;
- }
+   public boolean isConnected() {
+      return state instanceof ConnectedState;
+   }
 
- public boolean isRecording() {
-    return state == RECORDING;
- }
+   public boolean isRecording() {
+      return state instanceof RecordingState;
+   }
 
- public boolean isInMailBoxMenu() {
-    return state == MAILBOX_MENU;
- }
+   public boolean isInMailBoxMenu() {
+      return state instanceof MailBoxMenuState;
+   }
 
- public boolean isInMessageMenu() {
-    return state == MESSAGE_MENU;
- }
+   public boolean isInMessageMenu() {
+      return state instanceof MessageMenuState;
+   }
 
- public boolean isInChangePassword() {
-    return state == CHANGE_PASSCODE;
- }
+   public boolean isInChangePassword() {
+      return state instanceof ChangePasscodeState;
+   }
 
- public boolean isInChangeGreeting() {
-    return state == CHANGE_GREETING;
- }
+   public boolean isInChangeGreeting() {
+      return state instanceof ChangeGreetingState;
+   }
 
 }
 

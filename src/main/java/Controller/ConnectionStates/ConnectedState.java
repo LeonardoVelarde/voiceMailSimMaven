@@ -10,8 +10,7 @@ public class ConnectedState implements ConnectionState {
             connection.currentMailbox = connection.system.findMailbox(connection.accumulatedKeys);
             if (connection.currentMailbox != null)
             {
-                connection.state = Connection.RECORDING;
-                connection.state2 = new RecordingState();
+                connection.state = new RecordingState();
                 connection.speakToAllInterfaces(connection.currentMailbox.getGreeting());
             }
             else

@@ -27,8 +27,7 @@ public class MessageMenuState implements ConnectionState {
         }
         else if (key.equals("4"))
         {
-            connection.state = Connection.MAILBOX_MENU;
-            connection.state2 = new MailBoxMenuState();
+            connection.state = new MailBoxMenuState();
             connection.interfaceManager.speakToAllInterfaces(Connection.MAILBOX_MENU_TEXT);
         }
     }

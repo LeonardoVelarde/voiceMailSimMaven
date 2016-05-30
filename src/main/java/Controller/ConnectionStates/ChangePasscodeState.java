@@ -8,8 +8,7 @@ public class ChangePasscodeState implements ConnectionState {
         if (key.equals("#"))
         {
             connection.currentMailbox.setPasscode(connection.accumulatedKeys);
-            connection.state = Connection.MAILBOX_MENU;
-            connection.state2 = new MailBoxMenuState();
+            connection.state = new MailBoxMenuState();
             connection.interfaceManager.speakToAllInterfaces(Connection.MAILBOX_MENU_TEXT);
             connection.accumulatedKeys = "";
         }
