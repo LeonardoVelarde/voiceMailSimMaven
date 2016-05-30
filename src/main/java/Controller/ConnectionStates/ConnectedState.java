@@ -1,6 +1,7 @@
 package Controller.ConnectionStates;
 
 import Controller.Connection;
+import Model.Contact;
 
 public class ConnectedState implements ConnectionState {
 
@@ -16,6 +17,11 @@ public class ConnectedState implements ConnectionState {
             else
                 connection.speakToAllInterfaces("Incorrect mailbox number. Try again!");
             connection.accumulatedKeys = "";
+        }
+        else if(key.equals("Contacts"))
+        {
+            connection.state = new ContactMenuState();
+            connection.speakToAllInterfaces(Connection.CONTACT_MENU_TEXT);
         }
         else
             connection.accumulatedKeys += key;

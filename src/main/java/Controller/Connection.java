@@ -18,9 +18,10 @@ public class Connection
    public String accumulatedKeys;
    public InterfaceManager interfaceManager;
    public ConnectionState state;
+   public ContactManager contactManager;
 
    public static final String INITIAL_PROMPT =
-           "Enter mailbox number followed by #";
+           "Enter mailbox number followed by # (or enter Contacts to see contact menu)";
    public static final String MAILBOX_MENU_TEXT =
            "Enter 1 to listen to your messages\n"
                    + "Enter 2 to change your passcode\n"
@@ -31,11 +32,18 @@ public class Connection
                    + "Enter 3 to delete the current message\n"
                    + "Enter 4 to return to the main menu";
 
+   public static final String CONTACT_MENU_TEXT =
+           "Enter 1 to see your contacts\n"
+                   + "Enter 2 to add a contact\n"
+                   + "Enter 3 to delete a contact\n"
+                   + "Enter 4 to go back";
+
 
    public Connection(MailSystem s)
    {
       this.system = s;
       this.interfaceManager = new InterfaceManager();
+      this.contactManager = new ContactManager();
    }
 
    public void addNewInterface(UserInterface userInterface){
@@ -50,7 +58,9 @@ public class Connection
          hangup();
       else if (input.equalsIgnoreCase("Q"))
          System.exit(0);
-      else if (input.length() == 1  && "1234567890#".contains(input))
+      else if (input.length() == 1  && "1234567890#".contains(input) || input.equals("Contacts"))
+         dial(input);
+      else if(state instanceof NewContactState || (state instanceof DeleteContactState) && input.equals("Back"))
          dial(input);
       else
          record(input);

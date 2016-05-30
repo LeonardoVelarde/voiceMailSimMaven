@@ -16,7 +16,7 @@ public class ContactManager {
         this.contacts.add(c);
     }
 
-    public void addContact(String name, String number){
-        this.contacts.add(new Contact(name, number));
+    public void addContact(String first_name, String last_name, String number){
+        this.contacts.add(new Contact(first_name, last_name, number, null));
     }
 }
