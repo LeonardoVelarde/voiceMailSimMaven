@@ -22,7 +22,6 @@ public class ContactMapper {
     }
 
     public static void deleteFromDB(String idToDelete){
-//        Integer idToDelete = c.getDeleteData();
         MySQLConnection mySQLConnection = new MySQLConnection();
         mySQLConnection.deleteWithId(DELETE_STATEMENT, Integer.parseInt(idToDelete));
         mySQLConnection.closeConnection();
