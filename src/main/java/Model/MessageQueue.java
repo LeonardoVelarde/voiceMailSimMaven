@@ -1,5 +1,4 @@
-package Controller;
-import Model.Message;
+package Model;
 
 import java.util.ArrayList;
 

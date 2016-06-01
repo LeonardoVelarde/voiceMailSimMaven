@@ -1,7 +1,5 @@
 package Model;
 
-import Controller.MessageQueue;
-
 /*
    A mailbox contains messages that can be listed, kept or discarded.
 */

@@ -1,5 +1,5 @@
-import Controller.Connection;
-import Controller.MailSystem;
+import Controller.ConnectionController;
+import Model.MailSystem;
 import Model.*;
 import View.InterfacePhoneConsole;
 import View.UserInterface;
@@ -8,21 +8,21 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-public class ConnectionMailboxMenuTest {
+public class ConnectionControllerMailboxMenuTest {
 
 
     Mailbox currentMailbox;
     MailSystem mailSystem;
     UserInterface phone;
-    Connection connection;
+    ConnectionController connectionController;
 
     @Before
     public void setup() {
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(InterfacePhoneConsole.class);
-        connection = new Connection(mailSystem);
-        connection.addNewInterface(phone);
+        connectionController = new ConnectionController(mailSystem);
+        connectionController.addNewInterface(phone);
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("1")).thenReturn(true);
         inMailboxLoggedIn();
@@ -34,31 +34,31 @@ public class ConnectionMailboxMenuTest {
                 + "Enter 2 to save the current message\n"
                 + "Enter 3 to delete the current message\n"
                 + "Enter 4 to return to the main menu";
-        connection.receiveInput("1");
-        assert(connection.isInMessageMenu());
+        connectionController.receiveInput("1");
+        assert(connectionController.isInMessageMenu());
         verify(phone).speak(MESSAGE_MENU_TEXT);
     }
 
     @Test
     public void inMailboxMenuEnter2ForChangingPasscode() {
 
-        connection.receiveInput("2");
-        assert (connection.isInChangePassword());
+        connectionController.receiveInput("2");
+        assert (connectionController.isInChangePassword());
         verify(phone).speak("Enter new passcode followed by the # key");
     }
 
     @Test
     public void inMailboxMenuEnter3ForChangingGreeting() {
 
-        connection.receiveInput("3");
-        assert (connection.isInChangeGreeting());
+        connectionController.receiveInput("3");
+        assert (connectionController.isInChangeGreeting());
         verify(phone).speak("Record your greeting, then press the # key");
     }
 
     private void inMailboxLoggedIn() {
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("1");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
     }
 }

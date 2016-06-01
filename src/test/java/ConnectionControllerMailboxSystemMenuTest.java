@@ -1,5 +1,5 @@
-import Controller.Connection;
-import Controller.MailSystem;
+import Controller.ConnectionController;
+import Model.MailSystem;
 import Model.*;
 import View.UserInterface;
 import org.junit.Before;
@@ -8,12 +8,12 @@ import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 
-public class ConnectionMailboxSystemMenuTest {
+public class ConnectionControllerMailboxSystemMenuTest {
 
 	Mailbox currentMailbox;
     MailSystem mailSystem;
     UserInterface phone;
-    Connection connection;
+    ConnectionController connectionController;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
                     + "Enter 2 to change your passcode\n"
@@ -24,8 +24,8 @@ public class ConnectionMailboxSystemMenuTest {
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(UserInterface.class);
-        connection = new Connection(mailSystem);
-        connection.addNewInterface(phone);
+        connectionController = new ConnectionController(mailSystem);
+        connectionController.addNewInterface(phone);
     }
 
 	
@@ -34,15 +34,15 @@ public class ConnectionMailboxSystemMenuTest {
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("1")).thenReturn(true);
 
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("2");
-        connection.receiveInput("9");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("2");
+        connectionController.receiveInput("9");
+        connectionController.receiveInput("#");
         verify(currentMailbox).setPasscode("9");
-        assert (connection.isInMailBoxMenu());
+        assert (connectionController.isInMailBoxMenu());
         verify(phone,times(2)).speak(MAILBOX_MENU_TEXT);
     }
 
@@ -51,15 +51,15 @@ public class ConnectionMailboxSystemMenuTest {
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("1")).thenReturn(true);
 
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("3");
-        connection.record("Greeting");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("3");
+        connectionController.record("Greeting");
+        connectionController.receiveInput("#");
         verify(currentMailbox).setGreeting("Greeting");
-        assert(connection.isInMailBoxMenu());
+        assert(connectionController.isInMailBoxMenu());
         verify(phone,times(2)).speak(MAILBOX_MENU_TEXT);
     }
 

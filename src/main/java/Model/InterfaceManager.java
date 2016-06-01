@@ -1,4 +1,4 @@
-package Controller;
+package Model;
 import View.UserInterface;
 
 import java.util.ArrayList;

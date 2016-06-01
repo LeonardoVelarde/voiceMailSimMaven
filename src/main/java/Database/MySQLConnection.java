@@ -2,11 +2,7 @@ package Database;
 
 import Model.Contact;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,26 +17,55 @@ public class MySQLConnection {
 
     private Connection conn = null;
 
-    public MySQLConnection() throws SQLException, ClassNotFoundException {
+    public MySQLConnection(){
         connectWithDB();
     }
 
-    private void connectWithDB() throws SQLException, ClassNotFoundException {
+    private void connectWithDB(){
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        }
+        catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException: " + e.getMessage());
         }
     }
 
     public void closeConnection(){
         try {
             conn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void runNoQueryStatement(String sql, String[] data){
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            int fieldNumber = 1;
+            for(String field : data){
+                preparedStatement.setString(fieldNumber++, field);
+            }
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
+
+    }
+
+    public void deleteWithId(String sql, Integer id){
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
         }
     }
 
@@ -81,6 +106,18 @@ public class MySQLConnection {
         rs.close();
         stmt.close();
         return contacts;
+    }
+
+    public ResultSet runQueryStatement(String sql){
+        try{
+            Statement statement = conn.createStatement();
+            ResultSet res = statement.executeQuery(sql);
+            return res;
+        }
+        catch (SQLException e){
+            System.out.println("SQLException: " + e.getMessage());
+            return null;
+        }
     }
 
     public static void main(String[] args){

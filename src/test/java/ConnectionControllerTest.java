@@ -1,5 +1,5 @@
-import Controller.Connection;
-import Controller.MailSystem;
+import Controller.ConnectionController;
+import Model.MailSystem;
 import Model.*;
 import View.InterfacePhoneConsole;
 import View.UserInterface;
@@ -8,13 +8,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class ConnectionTest {
+public class ConnectionControllerTest {
 
 	@Test
 	public void newConnectionShouldBeConnected() {
 		MailSystem system = mock(MailSystem.class);
 		UserInterface interfaceConsole = mock(InterfacePhoneConsole.class);
-	    Connection conn = new Connection(system);
+	    ConnectionController conn = new ConnectionController(system);
 		conn.addNewInterface(interfaceConsole);
 
 	    assertTrue(conn.isConnected());
@@ -24,7 +24,7 @@ public class ConnectionTest {
 	public void whenDialInAConnectedStateItShouldChangeToRecording() {
 		MailSystem system = mock(MailSystem.class);
 		UserInterface interfaceConsole = mock(InterfacePhoneConsole.class);
-		Connection conn = new Connection(system);
+		ConnectionController conn = new ConnectionController(system);
 		Mailbox mailbox = mock(Mailbox.class);
 		conn.addNewInterface(interfaceConsole);
 
@@ -42,7 +42,7 @@ public class ConnectionTest {
 	public void whenDialInAConnectedStateAndNoMailboxFoundItShouldShowAnErrorMessage() {
 		MailSystem system = mock(MailSystem.class);
 		UserInterface interfaceConsole = mock(InterfacePhoneConsole.class);
-		Connection conn = new Connection(system);
+		ConnectionController conn = new ConnectionController(system);
 		conn.addNewInterface(interfaceConsole);
 
 		when(system.findMailbox("10")).thenReturn(null);
@@ -56,7 +56,7 @@ public class ConnectionTest {
 	@Test
 	public void test1() {
 		MailSystem system = mock(MailSystem.class);
-		Connection conn = new Connection(system);
+		ConnectionController conn = new ConnectionController(system);
 		Mailbox currentMailbox = mock(Mailbox.class);
 		String mailboxText = "Enter 1 to listen to your messages\n"
 				+ "Enter 2 to change your passcode\n"
@@ -80,7 +80,7 @@ public class ConnectionTest {
 	@Test
 	public void test2() {
 		MailSystem system = mock(MailSystem.class);
-		Connection conn = new Connection(system);
+		ConnectionController conn = new ConnectionController(system);
 		Mailbox currentMailbox = mock(Mailbox.class);
 		String mailboxText = "Incorrect passcode. Try again!";
 		UserInterface interfaceConsole = mock(InterfacePhoneConsole.class);
@@ -101,7 +101,7 @@ public class ConnectionTest {
 	@Test
 	public void getIntoChangePasscodeOption(){
 		MailSystem system = mock(MailSystem.class);
-		Connection conn = new Connection(system);
+		ConnectionController conn = new ConnectionController(system);
 		Mailbox currentMailbox = mock(Mailbox.class);
 		UserInterface interfaceConsole = mock(InterfacePhoneConsole.class);
 		conn.addNewInterface(interfaceConsole);

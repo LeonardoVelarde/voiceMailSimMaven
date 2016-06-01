@@ -1,5 +1,6 @@
 package Model;
 
+import Database.ContactMapper;
 import Database.MySQLConnection;
 
 import java.sql.SQLException;
@@ -18,8 +19,6 @@ public class Contact {
         }
         catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
@@ -37,6 +36,20 @@ public class Contact {
         return number;
     }
 
+    public String[] getInsertDataArray(){
+        String[] insertArray = {first_name, last_name, number};
+        return insertArray;
+    }
+
+    public String[] getUpdateDataArray(){
+        String[] updateArray = {first_name, last_name, number, id.toString()};
+        return updateArray;
+    }
+
+    public Integer getDeleteData(){
+        return id;
+    }
+
     public String getNumberAndName(){
         return id + ") " + getName() + " " + number;
     }
@@ -49,6 +62,12 @@ public class Contact {
         this.last_name = name;
     }
 
+    public void saveToDB(){ ContactMapper.saveToDB(this); }
+
+    public void updateInDB(){ ContactMapper.updateInDB(this); }
+
+    public void deleteFromDB(){ ContactMapper.deleteFromDB(this); }
+
     public void save(){
         try{
             MySQLConnection mySQLConnection = new MySQLConnection();
@@ -56,8 +75,6 @@ public class Contact {
             mySQLConnection.closeConnection();
         }
         catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

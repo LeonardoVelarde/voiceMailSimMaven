@@ -1,4 +1,4 @@
-package Controller;
+package Model;
 import Model.Contact;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class ContactManager {
     private ArrayList<Contact> contacts;
-    ContactManager(){
+    public ContactManager(){
         this.contacts = new ArrayList<Contact>();
     }
 

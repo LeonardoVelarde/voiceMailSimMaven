@@ -1,16 +1,15 @@
 package Controller;
 
-import Controller.ConnectionStates.*;
-import Model.Mailbox;
-import Model.Message;
+import Model.*;
+import Model.ConnectionStates.*;
 import View.UserInterface;
 
 /*
    Connects a phone to the mail system. The purpose of this
-   class is to keep track of the state3 of a connection, since
+   class is to keep track of the state3 of a connectionController, since
    the phone itself is just a source of individual key presses.
 */
-public class Connection
+public class ConnectionController
 {
    public MailSystem system;
    public Mailbox currentMailbox;
@@ -39,7 +38,7 @@ public class Connection
                    + "Enter 4 to go back";
 
 
-   public Connection(MailSystem s)
+   public ConnectionController(MailSystem s)
    {
       this.system = s;
       this.interfaceManager = new InterfaceManager();

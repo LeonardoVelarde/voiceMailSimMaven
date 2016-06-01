@@ -1,5 +1,5 @@
-import Controller.Connection;
-import Controller.MailSystem;
+import Controller.ConnectionController;
+import Model.MailSystem;
 import Model.*;
 import View.UserInterface;
 import org.junit.Before;
@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-public class ConnectionRecordingTest {
+public class ConnectionControllerRecordingTest {
 
     Mailbox currentMailbox;
     MailSystem mailSystem;
     UserInterface phone;
-    Connection connection;
+    ConnectionController connectionController;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
             + "Enter 2 to change your passcode\n"
@@ -23,8 +23,8 @@ public class ConnectionRecordingTest {
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(UserInterface.class);
-        connection = new Connection(mailSystem);
-        connection.addNewInterface(phone);
+        connectionController = new ConnectionController(mailSystem);
+        connectionController.addNewInterface(phone);
     }
 
     @Test
@@ -33,12 +33,12 @@ public class ConnectionRecordingTest {
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("2")).thenReturn(true);
 
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("2");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("2");
+        connectionController.receiveInput("#");
         verify(phone).speak(MAILBOX_MENU_TEXT);
-        assert (connection.isInMailBoxMenu());
+        assert (connectionController.isInMailBoxMenu());
     }
 
     @Test
@@ -46,10 +46,10 @@ public class ConnectionRecordingTest {
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("2")).thenReturn(false);
 
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("2");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("2");
+        connectionController.receiveInput("#");
         verify(phone).speak("Incorrect passcode. Try again!");
     }
 }

@@ -1,5 +1,5 @@
 package View;
-import Controller.Connection;
+import Controller.ConnectionController;
 
 import java.util.Scanner;
 
@@ -17,11 +17,11 @@ public class InterfacePhoneConsole implements UserInterface {
         System.out.println(message);
     }
 
-    public void start(Connection connection){
+    public void start(ConnectionController connectionController){
         String input = "";
         while(input != null){
             input = this.scanner.nextLine();
-            connection.receiveInput(input);
+            connectionController.receiveInput(input);
         }
     }
 }

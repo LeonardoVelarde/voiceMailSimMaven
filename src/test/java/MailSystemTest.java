@@ -1,4 +1,4 @@
-import Controller.MailSystem;
+import Model.MailSystem;
 import Model.*;
 import org.junit.Test;
 

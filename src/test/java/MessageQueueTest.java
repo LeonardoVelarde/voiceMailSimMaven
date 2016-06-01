@@ -1,4 +1,4 @@
-import Controller.MessageQueue;
+import Model.MessageQueue;
 import Model.*;
 import org.junit.Test;
 

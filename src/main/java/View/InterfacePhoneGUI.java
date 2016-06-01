@@ -1,5 +1,5 @@
 package View;
-import Controller.Connection;
+import Controller.ConnectionController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,14 +28,14 @@ public class InterfacePhoneGUI extends JDialog implements UserInterface {
     private JButton btnSend;
     private JTextArea inputTextArea;
 
-    private Connection connection;
+    private ConnectionController connectionController;
 
     public void speak(String message){
         this.outputTextPane.setText(message.replace("\n", "<br>"));
     }
 
-    public InterfacePhoneGUI(Connection connection) {
-        this.connection = connection;
+    public InterfacePhoneGUI(ConnectionController connectionController) {
+        this.connectionController = connectionController;
         setContentPane(contentPane);
         setModal(true);
         this.outputTextPane.setContentType("text/html");
@@ -202,7 +202,7 @@ public class InterfacePhoneGUI extends JDialog implements UserInterface {
     }
 
     private void onKeyPress(String key) {
-        this.connection.receiveInput(key);
+        this.connectionController.receiveInput(key);
     }
 
     private void onCancel() {

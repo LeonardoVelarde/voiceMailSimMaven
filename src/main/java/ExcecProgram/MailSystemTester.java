@@ -1,8 +1,8 @@
 package ExcecProgram;
 
-import Controller.Connection;
-import Controller.MailSystem;
-import Controller.RunnableClass;
+import Controller.ConnectionController;
+import Model.MailSystem;
+import Model.RunnableClass;
 import View.InterfacePhoneConsole;
 import View.InterfacePhoneGUI;
 
@@ -15,7 +15,7 @@ public class MailSystemTester
    public static void main(String[] args)
    {
       MailSystem system = new MailSystem(MAILBOX_COUNT);
-      Connection c = new Connection(system);
+      ConnectionController c = new ConnectionController(system);
       InterfacePhoneConsole consoleInterface = new InterfacePhoneConsole();
       InterfacePhoneGUI formInterface = new InterfacePhoneGUI(c);
       c.addNewInterface(formInterface);

@@ -1,5 +1,5 @@
-import Controller.Connection;
-import Controller.MailSystem;
+import Controller.ConnectionController;
+import Model.MailSystem;
 import Model.*;
 import View.UserInterface;
 import org.junit.Before;
@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-public class ConnectionNewTest {
+public class ConnectionControllerNewTest {
 
     Mailbox currentMailbox;
     MailSystem mailSystem;
     UserInterface phone;
-    Connection connection;
+    ConnectionController connectionController;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
                     + "Enter 2 to change your passcode\n"
@@ -27,30 +27,30 @@ public class ConnectionNewTest {
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(UserInterface.class);
-        connection = new Connection(mailSystem);
-        connection.addNewInterface(phone);
+        connectionController = new ConnectionController(mailSystem);
+        connectionController.addNewInterface(phone);
     }
 
     @Test
     public void newConnectionShouldShowInitialPromotAndSetStateToConnected() {
-        verify(phone).speak("Enter mailbox number followed by #");
-        assert (connection.isConnected());
+        verify(phone).speak("Enter mailbox number followed by # (or enter Contacts to see contact menu)");
+        assert (connectionController.isConnected());
     }
 
     @Test
     public void asConnectedDial1shouldGetMailBoxSpeakGreetingAndSetStateToRecording() {
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        connection.receiveInput("1");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
         verify(phone).speak(currentMailbox.getGreeting());
-        assert (connection.isRecording());
+        assert (connectionController.isRecording());
     }
 
     @Test
     public void asConnectedDial10shouldGetNullSpeakErrorMsjAndSetStateToRecording() {
         when(mailSystem.findMailbox("10")).thenReturn(null);
-        connection.receiveInput("1");
-        connection.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
         verify(phone).speak("Incorrect mailbox number. Try again!");
     }
 
@@ -61,16 +61,16 @@ public class ConnectionNewTest {
         when(currentMailbox.checkPasscode("1")).thenReturn(true);
         when(currentMailbox.getCurrentMessage()).thenReturn(new Message(msgText));
 
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput(msgText);
-        connection.hangup();
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("1");
-        connection.receiveInput("#");
-        connection.receiveInput("1");
-        connection.receiveInput("1");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput(msgText);
+        connectionController.hangup();
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("#");
+        connectionController.receiveInput("1");
+        connectionController.receiveInput("1");
         verify(phone).speak(msgText+"\n"+MESSAGE_MENU_TEXT);
     }
 }
