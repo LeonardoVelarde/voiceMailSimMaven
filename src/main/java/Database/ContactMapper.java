@@ -21,10 +21,10 @@ public class ContactMapper {
         mySQLConnection.closeConnection();
     }
 
-    public static void deleteFromDB(Contact c){
-        Integer idToDelete = c.getDeleteData();
+    public static void deleteFromDB(String idToDelete){
+//        Integer idToDelete = c.getDeleteData();
         MySQLConnection mySQLConnection = new MySQLConnection();
-        mySQLConnection.deleteWithId(DELETE_STATEMENT, idToDelete);
+        mySQLConnection.deleteWithId(DELETE_STATEMENT, Integer.parseInt(idToDelete));
         mySQLConnection.closeConnection();
     }
 

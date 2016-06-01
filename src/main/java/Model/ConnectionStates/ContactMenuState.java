@@ -2,6 +2,7 @@ package Model.ConnectionStates;
 
 
 import Controller.ConnectionController;
+import Database.ContactMapper;
 import Database.MySQLConnection;
 import Model.Contact;
 
@@ -12,16 +13,9 @@ public class ContactMenuState implements ConnectionState {
 
     private String getContacts(){
         String contactList = "";
-        List<Contact> contacts;
-        try {
-            MySQLConnection myconn = new MySQLConnection();
-            contacts = myconn.getContactList();
-            for(Contact c : contacts){
-                contactList += (c.getNumberAndName() + "\n");
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
+        List<Contact> contacts = ContactMapper.getDBContacts();
+        for(Contact c : contacts){
+            contactList += (c.getNumberAndName() + "\n");
         }
         return contactList;
     }
@@ -30,8 +24,7 @@ public class ContactMenuState implements ConnectionState {
         if (key.equals("1"))
         {
             connectionController.state = new ShowContactsState();
-            String contactList = getContacts();
-            connectionController.speakToAllInterfaces(contactList + "Enter 1 to go back\n");
+            connectionController.speakToAllInterfaces(getContacts() + "Enter 1 to go back\n");
         }
         else if (key.equals("2"))
         {
@@ -46,6 +39,11 @@ public class ContactMenuState implements ConnectionState {
             connectionController.speakToAllInterfaces(contactList + "Press or type the number of the contact you want to delete it, send 'Back' to go to contact menu.");
         }
         else if (key.equals("4"))
+        {
+            connectionController.speakToAllInterfaces( getContacts() + "Insert 'FirstName SecondName PhoneNumber contactId'");
+            connectionController.state = new EditContactState();
+        }
+        else if (key.equals("5"))
         {
             connectionController.speakToAllInterfaces(ConnectionController.INITIAL_PROMPT);
             connectionController.state = new ConnectedState();

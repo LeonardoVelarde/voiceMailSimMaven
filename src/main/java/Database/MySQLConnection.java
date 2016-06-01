@@ -92,22 +92,6 @@ public class MySQLConnection {
         return messages;
     }
 
-    public List<Contact> getContactList() throws SQLException {
-        Statement stmt;
-        stmt = conn.createStatement();
-        String sql = "SELECT * FROM Contact";
-        ResultSet rs = stmt.executeQuery(sql);
-
-        List<Contact> contacts = new ArrayList<Contact>();
-        while(rs.next()){
-            contacts.add(new Contact(rs.getString("first_name"), rs.getString("last_name"), rs.getString("phone_number"), rs.getInt("id")));
-        }
-
-        rs.close();
-        stmt.close();
-        return contacts;
-    }
-
     public ResultSet runQueryStatement(String sql){
         try{
             Statement statement = conn.createStatement();
@@ -118,23 +102,5 @@ public class MySQLConnection {
             System.out.println("SQLException: " + e.getMessage());
             return null;
         }
-    }
-
-    public static void main(String[] args){
-//        try{
-//            MySQLConnection myconn = new MySQLConnection();
-//            List<Contact> te = myconn.getContactList();
-//            myconn.closeConnection();
-//            for(Contact mess : te){
-//                System.out.println(mess.getName());
-//            }
-//        }
-//         catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        Contact c = new Contact("Contacto3", "Apellido3", "3", 5);
-        c.save();
     }
 }

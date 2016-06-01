@@ -66,7 +66,7 @@ public class Contact {
 
     public void updateInDB(){ ContactMapper.updateInDB(this); }
 
-    public void deleteFromDB(){ ContactMapper.deleteFromDB(this); }
+//    public void deleteFromDB(){ ContactMapper.deleteFromDB(this); }
 
     public void save(){
         try{
